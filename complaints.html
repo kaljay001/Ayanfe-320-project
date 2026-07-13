@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Complaints - FUOYE Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"><i class="fas fa-comment-dots"></i></div>
+            <div class="sidebar-title">FUOYE Portal</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="student-dashboard.html" class="sidebar-link">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="complaints.html" class="sidebar-link active">
+                <i class="fas fa-list"></i><span>My Complaints</span>
+            </a>
+            <a href="new-complaint.html" class="sidebar-link">
+                <i class="fas fa-plus-circle"></i><span>New Complaint</span>
+            </a>
+            <a href="dashboard/notifications.html" class="sidebar-link">
+                <i class="fas fa-bell"></i><span>Notifications</span>
+            </a>
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Account</div>
+                <a href="dashboard/profile.html" class="sidebar-link">
+                    <i class="fas fa-user"></i><span>Profile</span>
+                </a>
+                <a href="dashboard/settings.html" class="sidebar-link">
+                    <i class="fas fa-cog"></i><span>Settings</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <a href="student-dashboard.html">Dashboard</a>
+                    <span>/</span>
+                    <span>My Complaints</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search complaints..." onkeyup="filterComplaints()">
+                </div>
+                <button class="icon-btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar" id="userInitial">JD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem;">Filter Complaints</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Status</label>
+                    <select id="statusFilter" onchange="filterComplaints()">
+                        <option value="">All Status</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="under-review">Under Review</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Category</label>
+                    <select id="categoryFilter" onchange="filterComplaints()">
+                        <option value="">All Categories</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Facilities">Facilities</option>
+                        <option value="Accommodation">Accommodation</option>
+                        <option value="Health">Health & Safety</option>
+                        <option value="Lecturer">Lecturer Conduct</option>
+                        <option value="Administrative">Administrative</option>
+                        <option value="Financial">Financial</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Priority</label>
+                    <select id="priorityFilter" onchange="filterComplaints()">
+                        <option value="">All Priorities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaints List -->
+        <div class="card">
+            <div class="table-header">
+                <h3>Your Complaints</h3>
+                <a href="new-complaint.html" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> New Complaint
+                </a>
+            </div>
+
+            <div id="complaintsList" class="complaints-list"></div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!window.authManager.isAuthenticated()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const user = window.authManager.getCurrentUser();
+            if (user.role !== 'student') {
+                window.location.href = `${user.role}-dashboard.html`;
+                return;
+            }
+
+            document.getElementById('userInitial').textContent = 
+                (user.firstName[0] + user.lastName[0]).toUpperCase();
+
+            loadComplaints();
+        });
+
+        function loadComplaints() {
+            const user = window.authManager.getCurrentUser();
+            const complaints = window.complaintManager.getComplaintsByUser(user.id);
+            displayComplaints(complaints);
+        }
+
+        function displayComplaints(complaints) {
+            const container = document.getElementById('complaintsList');
+            
+            if (complaints.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                        <div class="empty-title">No Complaints Found</div>
+                        <div class="empty-text">You haven't submitted any complaints yet</div>
+                        <a href="new-complaint.html" class="btn btn-primary">Submit Your First Complaint</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = complaints.map((complaint, index) => `
+                <div class="complaint-item" data-id="${complaint.id}">
+                    <div class="complaint-info">
+                        <div class="complaint-id">${complaint.id}</div>
+                        <div class="complaint-title">${complaint.title}</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-calendar"></i> ${Utils.formatDate(complaint.createdAt)}</span>
+                            <span><i class="fas fa-tag"></i> ${complaint.category}</span>
+                            <span><i class="fas fa-flag"></i> ${complaint.priority}</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-${getStatusColor(complaint.status)}">${complaint.status}</span>
+                        <a href="complaint-detail.html?id=${complaint.id}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterComplaints() {
+            const user = window.authManager.getCurrentUser();
+            let complaints = window.complaintManager.getComplaintsByUser(user.id);
+
+            const status = document.getElementById('statusFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const priority = document.getElementById('priorityFilter').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            complaints = complaints.filter(c => {
+                const matchStatus = !status || c.status === status;
+                const matchCategory = !category || c.category === category;
+                const matchPriority = !priority || c.priority === priority;
+                const matchSearch = !search || 
+                    c.title.toLowerCase().includes(search) ||
+                    c.id.toLowerCase().includes(search) ||
+                    c.description.toLowerCase().includes(search);
+
+                return matchStatus && matchCategory && matchPriority && matchSearch;
+            });
+
+            displayComplaints(complaints);
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'submitted': 'info',
+                'under-review': 'warning',
+                'in-progress': 'warning',
+                'resolved': 'success',
+                'closed': 'danger'
+            };
+            return colors[status] || 'info';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.authManager.logout();
+            }
+        }
+    </script>
+</body>
+</html>

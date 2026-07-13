@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Complaint - FUOYE Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"><i class="fas fa-comment-dots"></i></div>
+            <div class="sidebar-title">FUOYE Portal</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="student-dashboard.html" class="sidebar-link">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="complaints.html" class="sidebar-link">
+                <i class="fas fa-list"></i><span>My Complaints</span>
+            </a>
+            <a href="new-complaint.html" class="sidebar-link active">
+                <i class="fas fa-plus-circle"></i><span>New Complaint</span>
+            </a>
+            <a href="notifications.html" class="sidebar-link">
+                <i class="fas fa-bell"></i><span>Notifications</span>
+            </a>
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Account</div>
+                <a href="profile.html" class="sidebar-link">
+                    <i class="fas fa-user"></i><span>Profile</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <a href="student-dashboard.html">Dashboard</a>
+                    <span>/</span>
+                    <span>New Complaint</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <button class="icon-btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="card" style="max-width: 800px;">
+            <h2>Submit a New Complaint</h2>
+            <p style="color: #64748b; margin-bottom: 2rem;">Share your concerns and help us improve FUOYE</p>
+
+            <form id="complaintForm">
+                <!-- Complaint Category -->
+                <div class="form-group">
+                    <label class="form-label">Complaint Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Academic">Academic Affairs</option>
+                        <option value="Facilities">Facilities & Infrastructure</option>
+                        <option value="Accommodation">Accommodation</option>
+                        <option value="Health">Health & Safety</option>
+                        <option value="Lecturer">Lecturer Conduct</option>
+                        <option value="Administrative">Administrative</option>
+                        <option value="Financial">Financial Matters</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Priority Level -->
+                <div class="form-group">
+                    <label class="form-label">Priority Level</label>
+                    <select id="priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+
+                <!-- Complaint Title -->
+                <div class="form-group">
+                    <label class="form-label">Complaint Title</label>
+                    <input type="text" id="title" placeholder="Brief summary of your complaint" required maxlength="100">
+                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">
+                        <span id="titleCount">0</span>/100 characters
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label">Detailed Description</label>
+                    <textarea id="description" placeholder="Provide detailed information about your complaint..." required minlength="20" style="min-height: 150px;"></textarea>
+                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">
+                        <span id="descCount">0</span>/500 characters
+                    </div>
+                </div>
+
+                <!-- Date of Incident -->
+                <div class="form-group">
+                    <label class="form-label">Date of Incident</label>
+                    <input type="date" id="incidentDate" required>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label class="form-label">Location (if applicable)</label>
+                    <input type="text" id="location" placeholder="Where did this occur?">
+                </div>
+
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">Attach Supporting Files</label>
+                    <div class="file-upload-box" style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #6366f1; margin-bottom: 0.5rem; display: block;"></i>
+                        <p style="margin: 0.5rem 0;">Drag and drop files here or click to select</p>
+                        <input type="file" id="attachments" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.txt" style="display: none;">
+                        <small style="color: #64748b;">PDF, DOC, JPG, PNG (Max 5MB per file)</small>
+                    </div>
+                    <div id="fileList" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Checkbox for Anonymous -->
+                <div class="form-checkbox" style="margin-bottom: 2rem;">
+                    <input type="checkbox" id="anonymous">
+                    <label for="anonymous">Submit anonymously</label>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-paper-plane"></i> Submit Complaint
+                    </button>
+                    <a href="student-dashboard.html" class="btn btn-secondary btn-lg">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Character counters
+        document.getElementById('title').addEventListener('input', function() {
+            document.getElementById('titleCount').textContent = this.value.length;
+        });
+
+        document.getElementById('description').addEventListener('input', function() {
+            document.getElementById('descCount').textContent = this.value.length;
+        });
+
+        // File upload
+        const uploadBox = document.querySelector('.file-upload-box');
+        const fileInput = document.getElementById('attachments');
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = 'rgba(99, 102, 241, 0.1)';
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.style.background = '';
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            displayFiles();
+        });
+
+        fileInput.addEventListener('change', displayFiles);
+
+        function displayFiles() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            
+            Array.from(fileInput.files).forEach((file, index) => {
+                const item = document.createElement('div');
+                item.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f1f5f9; border-radius: 6px; margin-bottom: 0.5rem;';
+                item.innerHTML = `
+                    <div>
+                        <i class="fas fa-file"></i>
+                        <span>${file.name}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;"> (${(file.size / 1024).toFixed(2)} KB)</span>
+                    </div>
+                    <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm">Remove</button>
+                `;
+                fileList.appendChild(item);
+            });
+        }
+
+        // Form submission
+        document.getElementById('complaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!window.authManager.isAuthenticated()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const user = window.authManager.getCurrentUser();
+
+            const complaintData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                category: document.getElementById('category').value,
+                priority: document.getElementById('priority').value,
+                incidentDate: document.getElementById('incidentDate').value,
+                location: document.getElementById('location').value,
+                anonymous: document.getElementById('anonymous').checked,
+                department: user.department
+            };
+
+            // Validate
+            if (!complaintData.title || !complaintData.description) {
+                window.notificationManager.createNotification(user.id, {
+                    message: 'Please fill in all required fields',
+                    type: 'error'
+                });
+                return;
+            }
+
+            // Create complaint
+            const complaint = window.complaintManager.createComplaint(complaintData, user);
+
+            window.notificationManager.createNotification(user.id, {
+                message: `Complaint ${complaint.id} submitted successfully!`,
+                type: 'success'
+            });
+
+            setTimeout(() => {
+                window.location.href = `complaint-detail.html?id=${complaint.id}`;
+            }, 1500);
+        });
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function logout() {
+            if (confirm('Logout?')) {
+                window.authManager.logout();
+            }
+        }
+    </script>
+</body>
+</html>

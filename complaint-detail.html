@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details - FUOYE Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"><i class="fas fa-comment-dots"></i></div>
+            <div class="sidebar-title">FUOYE Portal</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="student-dashboard.html" class="sidebar-link">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="complaints.html" class="sidebar-link active">
+                <i class="fas fa-list"></i><span>My Complaints</span>
+            </a>
+            <a href="new-complaint.html" class="sidebar-link">
+                <i class="fas fa-plus-circle"></i><span>New Complaint</span>
+            </a>
+            <a href="dashboard/notifications.html" class="sidebar-link">
+                <i class="fas fa-bell"></i><span>Notifications</span>
+            </a>
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Account</div>
+                <a href="profile.html" class="sidebar-link">
+                    <i class="fas fa-user"></i><span>Profile</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <a href="student-dashboard.html">Dashboard</a>
+                    <span>/</span>
+                    <a href="complaints.html">Complaints</a>
+                    <span>/</span>
+                    <span id="complaintIdBreadcrumb">Details</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <button class="icon-btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaint Details -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+                <div>
+                    <h2 id="complaintTitle" style="margin-bottom: 0.5rem;">Loading...</h2>
+                    <div id="complaintId" style="color: var(--primary); font-weight: 600;">CMP-XXXX</div>
+                </div>
+                <span id="statusBadge" class="badge badge-info">Submitted</span>
+            </div>
+
+            <!-- Complaint Metadata -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; padding: 1.5rem 0;">
+                <div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Submitted Date</div>
+                    <div id="submittedDate">-</div>
+                </div>
+                <div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Category</div>
+                    <div id="complaintCategory">-</div>
+                </div>
+                <div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Priority</div>
+                    <div id="complaintPriority">-</div>
+                </div>
+                <div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 600;">Department</div>
+                    <div id="complaintDept">-</div>
+                </div>
+            </div>
+
+            <!-- Complaint Description -->
+            <div style="padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                <h4 style="margin-bottom: 1rem;">Description</h4>
+                <p id="complaintDescription" style="line-height: 1.8; color: var(--text-secondary);">-</p>
+            </div>
+
+            <!-- Attachments -->
+            <div id="attachmentsSection" style="padding-top: 1.5rem; border-top: 1px solid var(--border); display: none;">
+                <h4 style="margin-bottom: 1rem;">Supporting Files</h4>
+                <div id="attachmentsList"></div>
+            </div>
+
+            <!-- Timeline -->
+            <div style="padding-top: 1.5rem; border-top: 1px solid var(--border); margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 1.5rem;">Activity Timeline</h4>
+                <div id="timeline"></div>
+            </div>
+
+            <!-- Reply Section -->
+            <div style="padding-top: 1.5rem; border-top: 1px solid var(--border); margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 1rem;">Add Reply</h4>
+                <div class="form-group">
+                    <textarea id="replyText" placeholder="Type your reply here..." style="min-height: 100px;"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="addReply()">
+                    <i class="fas fa-paper-plane"></i> Send Reply
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!window.authManager.isAuthenticated()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const complaintId = urlParams.get('id');
+
+            loadComplaintDetail(complaintId);
+        });
+
+        function loadComplaintDetail(complaintId) {
+            // For demo, we'll create a sample complaint if none exists
+            let complaint = window.complaintManager.getComplaintById(complaintId);
+            
+            if (!complaint) {
+                // Create sample complaint for demo
+                const user = window.authManager.getCurrentUser();
+                complaint = {
+                    id: `CMP-${Date.now()}`,
+                    title: 'Poor Laboratory Facilities in Computer Science Department',
+                    description: 'The laboratory facilities in the Computer Science department are inadequate. The computers are outdated and frequently malfunction. We need updated equipment and better maintenance.',
+                    category: 'Facilities',
+                    priority: 'high',
+                    status: 'in-progress',
+                    department: user.department,
+                    authorId: user.id,
+                    author: `${user.firstName} ${user.lastName}`,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    replies: [
+                        {
+                            id: 1,
+                            author: 'Department Officer',
+                            text: 'We have received your complaint and have forwarded it to the IT department for assessment.',
+                            createdAt: new Date(Date.now() - 86400000).toISOString()
+                        }
+                    ],
+                    attachments: []
+                };
+            }
+
+            // Display complaint
+            document.getElementById('complaintIdBreadcrumb').textContent = complaint.id;
+            document.getElementById('complaintId').textContent = complaint.id;
+            document.getElementById('complaintTitle').textContent = complaint.title;
+            document.getElementById('submittedDate').textContent = Utils.formatDate(complaint.createdAt);
+            document.getElementById('complaintCategory').textContent = complaint.category;
+            document.getElementById('complaintPriority').textContent = complaint.priority;
+            document.getElementById('complaintDept').textContent = complaint.department;
+            document.getElementById('complaintDescription').textContent = complaint.description;
+
+            // Status badge
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.className = `badge badge-${getStatusColor(complaint.status)}`;
+            statusBadge.textContent = complaint.status;
+
+            // Timeline
+            displayTimeline(complaint);
+
+            // Store current complaint for later use
+            window.currentComplaint = complaint;
+        }
+
+        function displayTimeline(complaint) {
+            const timeline = document.getElementById('timeline');
+            let html = `
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="position: relative;">
+                        <div style="width: 12px; height: 12px; background: var(--primary); border-radius: 50%; margin-top: 6px;"></div>
+                        <div style="width: 2px; height: 80px; background: var(--border); margin-left: 5px;"></div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Complaint Submitted</div>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem;">${Utils.formatDateTime(complaint.createdAt)}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">By ${complaint.author}</div>
+                    </div>
+                </div>
+            `;
+
+            if (complaint.replies && complaint.replies.length > 0) {
+                complaint.replies.forEach((reply, index) => {
+                    html += `
+                        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                            <div style="position: relative;">
+                                <div style="width: 12px; height: 12px; background: var(--success); border-radius: 50%; margin-top: 6px;"></div>
+                                ${index < complaint.replies.length - 1 ? '<div style="width: 2px; height: 80px; background: var(--border); margin-left: 5px;"></div>' : ''}
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">Reply from ${reply.author}</div>
+                                <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">${reply.text}</div>
+                                <div style="color: var(--text-secondary); font-size: 0.9rem;">${Utils.formatDateTime(reply.createdAt)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            timeline.innerHTML = html;
+        }
+
+        function addReply() {
+            const replyText = document.getElementById('replyText').value.trim();
+            if (!replyText) {
+                alert('Please type a reply');
+                return;
+            }
+
+            const complaint = window.currentComplaint;
+            const reply = {
+                id: Date.now(),
+                author: window.authManager.getCurrentUser().firstName + ' ' + window.authManager.getCurrentUser().lastName,
+                text: replyText,
+                createdAt: new Date().toISOString()
+            };
+
+            window.complaintManager.addReply(complaint.id, reply);
+            document.getElementById('replyText').value = '';
+
+            window.notificationManager.createNotification(
+                window.authManager.getCurrentUser().id,
+                { message: 'Reply sent successfully!', type: 'success' }
+            );
+
+            loadComplaintDetail(complaint.id);
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'submitted': 'info',
+                'under-review': 'warning',
+                'in-progress': 'warning',
+                'resolved': 'success',
+                'closed': 'danger'
+            };
+            return colors[status] || 'info';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.authManager.logout();
+            }
+        }
+    </script>
+</body>
+</html>

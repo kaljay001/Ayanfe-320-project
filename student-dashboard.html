@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - FUOYE Complaints Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-comment-dots"></i>
+            </div>
+            <div class="sidebar-title">FUOYE Portal</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="student-dashboard.html" class="sidebar-link active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="complaints.html" class="sidebar-link">
+                <i class="fas fa-list"></i>
+                <span>My Complaints</span>
+            </a>
+            <a href="new-complaint.html" class="sidebar-link">
+                <i class="fas fa-plus-circle"></i>
+                <span>New Complaint</span>
+            </a>
+            <a href="dashboard/notifications.html" class="sidebar-link">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Account</div>
+                <a href="dashboard/profile.html" class="sidebar-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="dashboard/settings.html" class="sidebar-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span onclick="logout()">Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <a href="student-dashboard.html">Dashboard</a>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search complaints...">
+                </div>
+
+                <button class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationCount">3</span>
+                </button>
+
+                <button class="icon-btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <div class="user-menu">
+                    <div class="user-avatar" id="userInitial">JD</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">John Doe</div>
+                        <div class="user-role">Student</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none;">
+            <h2>Welcome back, <span id="welcomeName">John</span>! 👋</h2>
+            <p style="color: rgba(255,255,255,0.9); margin: 0;">You have 2 active complaints and 1 pending reply</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Total Complaints</h4>
+                    <div class="stat-number" id="totalComplaints">5</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>2 this month</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Active Complaints</h4>
+                    <div class="stat-number" id="activeComplaints">2</div>
+                    <div class="stat-change">
+                        <span>Awaiting response</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Resolved</h4>
+                    <div class="stat-number" id="resolvedComplaints">3</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>1 this month</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Avg. Response Time</h4>
+                    <div class="stat-number">2.4d</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Faster than average</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Complaints -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="table-header">
+                <h3>Recent Complaints</h3>
+                <a href="complaints.html" class="btn btn-primary btn-sm">
+                    <i class="fas fa-arrow-right"></i> View All
+                </a>
+            </div>
+
+            <div class="complaints-list" id="recentComplaints">
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">CMP-1704067200</div>
+                        <div class="complaint-title">Poor Laboratory Facilities</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-calendar"></i> Dec 1, 2024</span>
+                            <span><i class="fas fa-tag"></i> Facilities</span>
+                            <span><i class="fas fa-building"></i> Computer Science</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-warning">In Progress</span>
+                        <a href="complaint-detail.html?id=1" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">CMP-1703980800</div>
+                        <div class="complaint-title">Inadequate Lecture Hall Space</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-calendar"></i> Nov 30, 2024</span>
+                            <span><i class="fas fa-tag"></i> Academic</span>
+                            <span><i class="fas fa-building"></i> Computer Science</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-success">Resolved</span>
+                        <a href="complaint-detail.html?id=2" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <a href="new-complaint.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #6366f1; margin-bottom: 1rem;">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h4>New Complaint</h4>
+                <p style="margin: 0; color: #64748b;">Submit a new complaint or feedback</p>
+            </a>
+
+            <a href="dashboard/notifications.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 1rem;">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h4>Notifications</h4>
+                <p style="margin: 0; color: #64748b;">Check your latest updates</p>
+            </a>
+
+            <a href="dashboard/profile.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #10b981; margin-bottom: 1rem;">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h4>My Profile</h4>
+                <p style="margin: 0; color: #64748b;">View and edit your profile</p>
+            </a>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Check authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!window.authManager.isAuthenticated()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const user = window.authManager.getCurrentUser();
+            if (user.role !== 'student') {
+                window.location.href = `${user.role}-dashboard.html`;
+                return;
+            }
+
+            // Update UI
+            document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById('welcomeName').textContent = user.firstName;
+            document.getElementById('userInitial').textContent = 
+                (user.firstName[0] + user.lastName[0]).toUpperCase();
+
+            // Update stats
+            const userComplaints = window.complaintManager.getComplaintsByUser(user.id);
+            document.getElementById('totalComplaints').textContent = userComplaints.length;
+            
+            const active = userComplaints.filter(c => 
+                ['submitted', 'under-review', 'in-progress'].includes(c.status)
+            ).length;
+            document.getElementById('activeComplaints').textContent = active;
+            
+            const resolved = userComplaints.filter(c => c.status === 'resolved').length;
+            document.getElementById('resolvedComplaints').textContent = resolved;
+
+            // Load recent complaints
+            loadRecentComplaints(userComplaints.slice(0, 2));
+        });
+
+        function loadRecentComplaints(complaints) {
+            const container = document.getElementById('recentComplaints');
+            
+            if (complaints.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                        <div class="empty-title">No Complaints Yet</div>
+                        <div class="empty-text">You haven't submitted any complaints yet</div>
+                        <a href="new-complaint.html" class="btn btn-primary">Submit Your First Complaint</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = complaints.map(complaint => `
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">${complaint.id}</div>
+                        <div class="complaint-title">${complaint.title}</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-calendar"></i> ${Utils.formatDate(complaint.createdAt)}</span>
+                            <span><i class="fas fa-tag"></i> ${complaint.category}</span>
+                            <span><i class="fas fa-building"></i> ${complaint.department}</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-${getStatusColor(complaint.status)}">${complaint.status}</span>
+                        <a href="complaint-detail.html?id=${complaint.id}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'submitted': 'info',
+                'under-review': 'warning',
+                'in-progress': 'warning',
+                'resolved': 'success',
+                'closed': 'danger'
+            };
+            return colors[status] || 'info';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.authManager.logout();
+            }
+        }
+    </script>
+</body>
+</html>

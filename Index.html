@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUOYE Complaints Portal - Professional Feedback Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-comment-dots"></i>
+                <span>FUOYE Portal</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="nav-btn login-btn">Login</a>
+                <a href="register.html" class="nav-btn signup-btn">Register</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title animate-fade-in">
+                Student Complaints & Feedback Portal
+            </h1>
+            <p class="hero-subtitle animate-fade-in-delay">
+                Professional, transparent, and efficient complaint management system for FUOYE
+            </p>
+            <div class="hero-buttons animate-fade-in-delay-2">
+                <a href="register.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+                <a href="#features" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-down"></i> Learn More
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="floating-card card-1">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-bell"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Everything you need for effective complaint management</p>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure Authentication</h3>
+                    <p>Role-based access control with encrypted passwords and secure session management</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <h3>File Upload Support</h3>
+                    <p>Attach supporting documents (PDF, Images) to strengthen your complaints</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Real-time Notifications</h3>
+                    <p>Instant updates on complaint status changes and important announcements</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Visual insights with charts and statistics for administrators</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Advanced Search & Filter</h3>
+                    <p>Quickly find complaints by status, category, date, and department</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Dark/Light Mode</h3>
+                    <p>Comfortable viewing experience with automatic theme switching</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register Account</h3>
+                    <p>Create your account as a student, officer, or administrator</p>
+                </div>
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Submit Complaint</h3>
+                    <p>Fill in complaint details and upload supporting documents</p>
+                </div>
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Track Status</h3>
+                    <p>Monitor your complaint progress in real-time</p>
+                </div>
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Get Resolution</h3>
+                    <p>Receive updates and communicate with administrative staff</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About This System</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Designed for FUOYE Community</h3>
+                    <p>
+                        This student complaints and feedback portal is specifically built for Federal University 
+                        Oye-Ekiti (FUOYE) to provide a transparent, efficient, and user-friendly platform for 
+                        managing student concerns, suggestions, and feedback.
+                    </p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check"></i> Transparent complaint handling process</li>
+                        <li><i class="fas fa-check"></i> Multiple user roles and permissions</li>
+                        <li><i class="fas fa-check"></i> Professional analytics and reporting</li>
+                        <li><i class="fas fa-check"></i> Mobile-responsive design</li>
+                        <li><i class="fas fa-check"></i> Secure data management</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <div class="stat-card glass-effect">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Responsive Design</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Roles Section -->
+    <section class="user-roles">
+        <div class="container">
+            <h2 class="section-title">User Roles & Permissions</h2>
+            
+            <div class="roles-grid">
+                <div class="role-card glass-effect">
+                    <div class="role-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Student</h3>
+                    <ul>
+                        <li>Submit complaints & feedback</li>
+                        <li>Upload supporting files</li>
+                        <li>Track complaint status</li>
+                        <li>View complaint history</li>
+                        <li>Receive notifications</li>
+                    </ul>
+                </div>
+
+                <div class="role-card glass-effect">
+                    <div class="role-icon">
+                        <i class="fas fa-chalkboard-user"></i>
+                    </div>
+                    <h3>Department Officer</h3>
+                    <ul>
+                        <li>Manage department complaints</li>
+                        <li>Assign cases</li>
+                        <li>Update complaint status</li>
+                        <li>Reply to students</li>
+                        <li>View department analytics</li>
+                    </ul>
+                </div>
+
+                <div class="role-card glass-effect">
+                    <div class="role-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Administrator</h3>
+                    <ul>
+                        <li>Manage all complaints</li>
+                        <li>User management</li>
+                        <li>Generate reports</li>
+                        <li>Create announcements</li>
+                        <li>System configuration</li>
+                    </ul>
+                </div>
+
+                <div class="role-card glass-effect">
+                    <div class="role-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Super Admin</h3>
+                    <ul>
+                        <li>Full system access</li>
+                        <li>Manage administrators</li>
+                        <li>System settings</li>
+                        <li>Database management</li>
+                        <li>Advanced reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item glass-effect">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>support@fuoye.edu.ng</p>
+                        </div>
+                    </div>
+                    <div class="contact-item glass-effect">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+234 (0) 803 123 4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item glass-effect">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>FUOYE Campus, Oye-Ekiti, Nigeria</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form glass-effect">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FUOYE Portal</h3>
+                    <p>Professional complaint management system for Federal University Oye-Ekiti</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="auth/login.html">Login</a></li>
+                        <li><a href="auth/register.html">Register</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FUOYE Complaints Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+</html>

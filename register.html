@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FUOYE Complaints Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <div class="auth-container">
+        <div class="auth-background">
+            <div class="auth-shape shape-1"></div>
+            <div class="auth-shape shape-2"></div>
+        </div>
+
+        <div class="auth-wrapper">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">Join the FUOYE Portal community</p>
+                </div>
+
+                <form class="auth-form" id="registerForm">
+                    <!-- Role Selection -->
+                    <div class="form-group">
+                        <label class="form-label">Account Type</label>
+                        <div class="role-selection">
+                            <div class="role-option">
+                                <input type="radio" id="student" name="role" value="student" checked>
+                                <label for="student" class="role-label">
+                                    <div class="role-icon">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                    <span>Student</span>
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="officer" name="role" value="officer">
+                                <label for="officer" class="role-label">
+                                    <div class="role-icon">
+                                        <i class="fas fa-chalkboard-user"></i>
+                                    </div>
+                                    <span>Officer</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name Fields -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" id="firstName" placeholder="First name" required>
+                            <div class="form-error" id="firstNameError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" id="lastName" placeholder="Last name" required>
+                            <div class="form-error" id="lastNameError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" placeholder="you@fuoye.edu.ng" required>
+                        <div class="form-error" id="emailError"></div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+234 (0) 123 4567" required>
+                        <div class="form-error" id="phoneError"></div>
+                    </div>
+
+                    <!-- Student/Officer Specific Fields -->
+                    <div id="studentFields" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Matrix Number</label>
+                            <input type="text" id="matrixNumber" placeholder="CSC/2023/XXXX">
+                            <div class="form-error" id="matrixNumberError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Department -->
+                    <div class="form-group">
+                        <label class="form-label">Department</label>
+                        <select id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Education">Education</option>
+                            <option value="Law">Law</option>
+                            <option value="Business">Business Administration</option>
+                        </select>
+                        <div class="form-error" id="departmentError"></div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="password" placeholder="At least 6 characters" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-error" id="passwordError"></div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-error" id="confirmPasswordError"></div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="form-terms">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">
+                            I agree to the Terms of Service and Privacy Policy of FUOYE Portal
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    Already have an account? <a href="login.html">Sign in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Toggle between student and officer fields
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const studentFields = document.getElementById('studentFields');
+                if (this.value === 'student') {
+                    studentFields.style.display = 'block';
+                    document.getElementById('matrixNumber').required = true;
+                } else {
+                    studentFields.style.display = 'none';
+                    document.getElementById('matrixNumber').required = false;
+                }
+            });
+        });
+
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = event.target.closest('.password-toggle').querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                matrixNumber: document.getElementById('matrixNumber').value,
+                department: document.getElementById('department').value,
+                password: document.getElementById('password').value,
+                role: document.querySelector('input[name="role"]:checked').value
+            };
+
+            // Validate passwords match
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (formData.password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                return;
+            }
+
+            // Validate form
+            const errors = FormValidator.validateForm(
+                formData,
+                {
+                    firstName: { required: true },
+                    lastName: { required: true },
+                    email: { required: true, email: true },
+                    phone: { required: true },
+                    department: { required: true },
+                    password: { required: true, minLength: 6 }
+                }
+            );
+
+            if (errors) {
+                Object.keys(errors).forEach(field => {
+                    const errorEl = document.getElementById(`${field}Error`);
+                    if (errorEl) {
+                        errorEl.textContent = errors[field][0];
+                    }
+                });
+                return;
+            }
+
+            // Register
+            const result = window.authManager.register(formData);
+            
+            if (result.success) {
+                window.notificationManager.createNotification(
+                    result.user.id,
+                    { message: 'Account created successfully! Redirecting to login...', type: 'success' }
+                );
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                window.notificationManager.createNotification(
+                    null,
+                    { message: result.message, type: 'error' }
+                );
+            }
+        });
+    </script>
+</body>
+</html>

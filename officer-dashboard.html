@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Officer Dashboard - FUOYE Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body class="light-theme">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"><i class="fas fa-comment-dots"></i></div>
+            <div class="sidebar-title">FUOYE Portal</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="officer-dashboard.html" class="sidebar-link active">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="complaints.html" class="sidebar-link">
+                <i class="fas fa-tasks"></i><span>Manage Complaints</span>
+            </a>
+            
+            <a href="dashboard/notifications.html" class="sidebar-link">
+                <i class="fas fa-bell"></i><span>Notifications</span>
+            </a>
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Settings</div>
+                <a href="dashboard/profile.html" class="sidebar-link">
+                    <i class="fas fa-user"></i><span>Profile</span>
+                </a>
+                <a href="dashboard/settings.html" class="sidebar-link">
+                    <i class="fas fa-cog"></i><span>Settings</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <a href="officer-dashboard.html">Dashboard</a>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search complaints...">
+                </div>
+                <button class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <button class="icon-btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar" id="userInitial">JD</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Jane Doe</div>
+                        <div class="user-role">Officer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none;">
+            <h2>Welcome back, <span id="welcomeName">Jane</span>! 👋</h2>
+            <p style="color: rgba(255,255,255,0.9); margin: 0;">You have <strong>8 pending complaints</strong> and <strong>3 replies to send</strong></p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Total Complaints</h4>
+                    <div class="stat-number">24</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>4 this week</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Pending Review</h4>
+                    <div class="stat-number">8</div>
+                    <div class="stat-change">
+                        <span>Awaiting action</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Resolved</h4>
+                    <div class="stat-number">12</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>50% resolution rate</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h4>Avg. Response Time</h4>
+                    <div class="stat-number">1.2d</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Faster than average</span>
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Complaints -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="table-header">
+                <h3>Pending Complaints Requiring Action</h3>
+                <a href="complaints.html" class="btn btn-primary btn-sm">
+                    <i class="fas fa-arrow-right"></i> View All
+                </a>
+            </div>
+
+            <div class="complaints-list">
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">CMP-1704153600</div>
+                        <div class="complaint-title">Inadequate Library Resources</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-user"></i> John Doe</span>
+                            <span><i class="fas fa-calendar"></i> Dec 2, 2024</span>
+                            <span><i class="fas fa-tag"></i> Facilities</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-info">Submitted</span>
+                        <button class="btn btn-sm btn-primary" onclick="assignComplaint()">Assign</button>
+                    </div>
+                </div>
+
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">CMP-1704067200</div>
+                        <div class="complaint-title">Poor Lecturer Conduct</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-user"></i> Mary Smith</span>
+                            <span><i class="fas fa-calendar"></i> Dec 1, 2024</span>
+                            <span><i class="fas fa-tag"></i> Lecturer</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-warning">Under Review</span>
+                        <button class="btn btn-sm btn-primary" onclick="viewComplaint()">View</button>
+                    </div>
+                </div>
+
+                <div class="complaint-item">
+                    <div class="complaint-info">
+                        <div class="complaint-id">CMP-1703980800</div>
+                        <div class="complaint-title">Accommodation Issues</div>
+                        <div class="complaint-meta">
+                            <span><i class="fas fa-user"></i> Ahmed Hassan</span>
+                            <span><i class="fas fa-calendar"></i> Nov 30, 2024</span>
+                            <span><i class="fas fa-tag"></i> Accommodation</span>
+                        </div>
+                    </div>
+                    <div class="complaint-actions">
+                        <span class="badge badge-warning">In Progress</span>
+                        <button class="btn btn-sm btn-primary" onclick="viewComplaint()">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <a href="complaints.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #6366f1; margin-bottom: 1rem;">
+                    <i class="fas fa-list-check"></i>
+                </div>
+                <h4>Manage Complaints</h4>
+                <p style="margin: 0; color: #64748b;">Review and manage all complaints</p>
+            </a>
+
+            <a href="analytics.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 1rem;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h4>Analytics</h4>
+                <p style="margin: 0; color: #64748b;">View department statistics</p>
+            </a>
+
+            <a href="dashboard/profile.html" class="card" style="text-align: center; text-decoration: none; color: inherit; transition: all 0.3s;">
+                <div style="font-size: 2.5rem; color: #10b981; margin-bottom: 1rem;">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h4>My Profile</h4>
+                <p style="margin: 0; color: #64748b;">View and edit profile</p>
+            </a>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!window.authManager.isAuthenticated()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const user = window.authManager.getCurrentUser();
+            if (user.role !== 'officer') {
+                window.location.href = `${user.role}-dashboard.html`;
+                return;
+            }
+
+            document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById('welcomeName').textContent = user.firstName;
+            document.getElementById('userInitial').textContent = 
+                (user.firstName[0] + user.lastName[0]).toUpperCase();
+        });
+
+        function assignComplaint() {
+            alert('Assignment feature coming soon!');
+        }
+
+        function viewComplaint() {
+            window.location.href = 'complaint-detail.html?id=1';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.authManager.logout();
+            }
+        }
+    </script>
+</body>
+</html>
