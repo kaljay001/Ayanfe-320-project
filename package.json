@@ -1,0 +1,21 @@
+{
+  "name": "fuoye-complaints-portal",
+  "version": "1.0.0",
+  "description": "FUOYE Student Complaints and Feedback Portal",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "complaints",
+    "portal",
+    "feedback",
+    "fuoye"
+  ],
+  "author": "FUOYE IT Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
